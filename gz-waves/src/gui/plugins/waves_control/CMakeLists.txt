@@ -9,7 +9,7 @@ project(WavesControl)
 set(CMAKE_AUTOMOC ON)
 
 # Garden (default)
-if("$ENV{GZ_VERSION}" STREQUAL "garden" OR NOT DEFINED "ENV{GZ_VERSION}")
+if("$ENV{GZ_VERSION}" STREQUAL "garden")
 
   find_package(gz-sim7 REQUIRED COMPONENTS gui)
   set(GZ_SIM_VER ${gz-sim7_VERSION_MAJOR})
@@ -23,9 +23,19 @@ elseif("$ENV{GZ_VERSION}" STREQUAL "harmonic")
   set(GZ_SIM_VER ${gz-sim8_VERSION_MAJOR})
 
   message(STATUS "Compiling against Gazebo Harmonic")
+
+# Ionic
+elseif("$ENV{GZ_VERSION}" STREQUAL "ionic" OR NOT DEFINED "ENV{GZ_VERSION}")
+
+  find_package(gz-sim9 REQUIRED COMPONENTS gui)
+  set(GZ_SIM_VER ${gz-sim9_VERSION_MAJOR})
+
+  message(STATUS "Compiling against Gazebo Ionic")
+  
 else()  
   message(FATAL_ERROR "Unsupported GZ_VERSION: $ENV{GZ_VERSION}")
 endif()
+
 
 
 QT5_ADD_RESOURCES(resources_RCC ${PROJECT_NAME}.qrc)

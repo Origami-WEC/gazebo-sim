@@ -47,7 +47,7 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(Add_gnuplot-iostream)
 
 # Garden (default)
-if("$ENV{GZ_VERSION}" STREQUAL "garden" OR NOT DEFINED "ENV{GZ_VERSION}")
+if("$ENV{GZ_VERSION}" STREQUAL "garden")
 
   #--------------------------------------
   # Find gz-math
@@ -140,10 +140,13 @@ elseif("$ENV{GZ_VERSION}" STREQUAL "harmonic")
 
   message(STATUS "Compiling against Gazebo Harmonic")
 
-# Ionic
-elseif("$ENV{GZ_VERSION}" STREQUAL "ionic")
+  # Ionic
 
-  #--------------------------------------
+  elseif(NOT DEFINED "ENV{GZ_VERSION}")
+
+  message(STATUS "Compiling against Gazebo Jammy")
+
+    #--------------------------------------
   # Find gz-math
   gz_find_package(gz-math8 REQUIRED COMPONENTS eigen3)
   set(GZ_MATH_VER ${gz-math8_VERSION_MAJOR})
@@ -158,6 +161,7 @@ elseif("$ENV{GZ_VERSION}" STREQUAL "ionic")
   gz_find_package(gz-common6
     REQUIRED COMPONENTS graphics events
   )
+
   set(GZ_COMMON_VER ${gz-common6_VERSION_MAJOR})
 
   #--------------------------------------
@@ -185,8 +189,7 @@ elseif("$ENV{GZ_VERSION}" STREQUAL "ionic")
   gz_find_package(sdformat15 REQUIRED)
   set(SDF_VER ${sdformat15_VERSION_MAJOR})
 
-  message(STATUS "Compiling against Gazebo Ionic")
-
+ 
 else()
   message(FATAL_ERROR "Unsupported GZ_VERSION: $ENV{GZ_VERSION}")
 endif()
