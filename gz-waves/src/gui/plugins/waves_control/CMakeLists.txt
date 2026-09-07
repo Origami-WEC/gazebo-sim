@@ -8,42 +8,18 @@ project(WavesControl)
 
 set(CMAKE_AUTOMOC ON)
 
-# Garden (default)
-if("$ENV{GZ_VERSION}" STREQUAL "garden")
+# Use unversioned find_package — auto-detects latest Gazebo install
+find_package(gz-sim REQUIRED COMPONENTS gui)
+set(GZ_SIM_VER ${gz-sim_VERSION_MAJOR})
+message(STATUS "Compiling WavesControl GUI against gz-sim ${gz-sim_VERSION}")
 
-  find_package(gz-sim7 REQUIRED COMPONENTS gui)
-  set(GZ_SIM_VER ${gz-sim7_VERSION_MAJOR})
- 
-  message(STATUS "Compiling against Gazebo Garden")
-
-# Harmonic
-elseif("$ENV{GZ_VERSION}" STREQUAL "harmonic")
-
-  find_package(gz-sim8 REQUIRED COMPONENTS gui)
-  set(GZ_SIM_VER ${gz-sim8_VERSION_MAJOR})
-
-  message(STATUS "Compiling against Gazebo Harmonic")
-
-# Ionic
-elseif("$ENV{GZ_VERSION}" STREQUAL "ionic" OR NOT DEFINED "ENV{GZ_VERSION}")
-
-  find_package(gz-sim9 REQUIRED COMPONENTS gui)
-  set(GZ_SIM_VER ${gz-sim9_VERSION_MAJOR})
-
-  message(STATUS "Compiling against Gazebo Ionic")
-  
-else()  
-  message(FATAL_ERROR "Unsupported GZ_VERSION: $ENV{GZ_VERSION}")
-endif()
-
-
-
-QT5_ADD_RESOURCES(resources_RCC ${PROJECT_NAME}.qrc)
+find_package(Qt6 REQUIRED COMPONENTS Core)
+qt_add_resources(resources_RCC ${PROJECT_NAME}.qrc)
 
 add_library(${PROJECT_NAME} SHARED
   ${PROJECT_NAME}.cc
   ${resources_RCC}
 )
 target_link_libraries(${PROJECT_NAME}
-  PRIVATE gz-sim${GZ_SIM_VER}::gui
+  PRIVATE gz-sim::gui
 )

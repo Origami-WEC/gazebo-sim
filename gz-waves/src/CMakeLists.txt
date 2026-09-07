@@ -54,13 +54,14 @@ gz_create_core_library(SOURCES ${sources} CXX_STANDARD ${CMAKE_CXX_STANDARD})
 
 target_link_libraries(${PROJECT_LIBRARY_TARGET_NAME}
   PUBLIC
-  gz-math${GZ_MATH_VER}
-  gz-msgs${GZ_MSGS_VER}::gz-msgs${GZ_MSGS_VER}
-  gz-common${GZ_COMMON_VER}::gz-common${GZ_COMMON_VER}
-  gz-common${GZ_COMMON_VER}::graphics
-  gz-common${GZ_COMMON_VER}::profiler
-  gz-transport${GZ_TRANSPORT_VER}::gz-transport${GZ_TRANSPORT_VER}
-  sdformat${SDF_VER}::sdformat${SDF_VER}
+  Eigen3::Eigen
+  gz-math::gz-math
+  gz-msgs::gz-msgs
+  gz-common::gz-common
+  gz-common::graphics
+  gz-common::profiler
+  gz-transport::gz-transport
+  sdformat::sdformat
   ${FFT_LIBRARIES}
 )
 if (${CGAL_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -77,7 +78,6 @@ endif()
 target_include_directories(${PROJECT_LIBRARY_TARGET_NAME}
   PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-  ${EIGEN3_INCLUDE_DIR}
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/test)

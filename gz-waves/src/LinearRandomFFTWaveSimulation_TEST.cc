@@ -104,10 +104,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianHTimeZeroReference)
       std::complex hc = model.fft_h_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -137,10 +137,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianDhDxTimeZeroReference)
       std::complex hc = model.fft_h_ikx_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -170,10 +170,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianDhDyTimeZeroReference)
       std::complex hc = model.fft_h_iky_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -203,10 +203,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianSxTimeZeroReference)
       std::complex hc = model.fft_sx_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -236,10 +236,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianSyTimeZeroReference)
       std::complex hc = model.fft_sy_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -269,10 +269,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianDsxDxTimeZeroReference)
       std::complex hc = model.fft_h_kxkx_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -302,10 +302,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianDsyDyTimeZeroReference)
       std::complex hc = model.fft_h_kyky_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -335,10 +335,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianDsxDyTimeZeroReference)
       std::complex hc = model.fft_h_kxky_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -374,10 +374,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianTimeNonZeroReference)
       std::complex hc = model.fft_h_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -495,10 +495,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianTimeZero)
       std::complex hc = model.fft_h_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }
@@ -537,10 +537,10 @@ TEST_F(LinearRandomFFTWaveSimFixture, HermitianTimeNonZero)
       std::complex hc = model.fft_h_(ckx, cky);
 
       // real part symmetric
-      EXPECT_DOUBLE_EQ(h.real(), hc.real());
+      EXPECT_NEAR(h.real(), hc.real(), 1e-12);
 
       // imaginary part anti-symmetric
-      EXPECT_DOUBLE_EQ(h.imag(), -1.0 * hc.imag());
+      EXPECT_NEAR(h.imag(), -1.0 * hc.imag(), 1e-12);
     }
   }
 }

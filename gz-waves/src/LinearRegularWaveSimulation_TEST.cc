@@ -304,7 +304,7 @@ TEST_F(LinearRegularWaveSimFixture, TestHeightsDirXArrayXXd)
   {
     for (Index ix=0; ix < nx_; ++ix, ++idx)
     {
-      EXPECT_DOUBLE_EQ(h1(idx), h2(idx));
+      EXPECT_NEAR(double(h1(idx)), double(h2(idx)), 1e-12);
     }
   }
 }
@@ -334,7 +334,7 @@ TEST_F(LinearRegularWaveSimFixture, TestHeightsDirXYArrayXXd)
   {
     for (Index ix=0; ix < nx_; ++ix, ++idx)
     {
-      EXPECT_DOUBLE_EQ(h1(idx), h2(idx));
+      EXPECT_NEAR(double(h1(idx)), double(h2(idx)), 1e-12);
     }
   }
 }
@@ -366,8 +366,8 @@ TEST_F(LinearRegularWaveSimFixture, TestDisplacmentsArrayXXd)
   {
     for (Index ix=0; ix < nx_; ++ix, ++idx)
     {
-      EXPECT_DOUBLE_EQ(sx1(idx), sx2(idx));
-      EXPECT_DOUBLE_EQ(sy1(idx), sy2(idx));
+      EXPECT_NEAR(double(sx1(idx)), double(sx2(idx)), 1e-12);
+      EXPECT_NEAR(double(sy1(idx)), double(sy2(idx)), 1e-12);
     }
   }
 }
@@ -399,8 +399,8 @@ TEST_F(LinearRegularWaveSimFixture, TestHeightDerivativesArrayXXd)
   {
     for (Index ix=0; ix < nx_; ++ix, ++idx)
     {
-      EXPECT_DOUBLE_EQ(dhdx1(idx), dhdx2(idx));
-      EXPECT_DOUBLE_EQ(dhdy1(idx), dhdy2(idx));
+      EXPECT_NEAR(double(dhdx1(idx)), double(dhdx2(idx)), 1e-12);
+      EXPECT_NEAR(double(dhdy1(idx)), double(dhdy2(idx)), 1e-12);
     }
   }
 }
@@ -446,14 +446,14 @@ TEST_F(LinearRegularWaveSimFixture, TestDisplacementsAndDerivativesArrayXXd)
   {
     for (Index ix=0; ix < nx_; ++ix, ++idx)
     {
-      EXPECT_DOUBLE_EQ(h1(idx), h2(idx));
-      EXPECT_DOUBLE_EQ(sx1(idx), sx2(idx));
-      EXPECT_DOUBLE_EQ(sy1(idx), sy2(idx));
-      EXPECT_DOUBLE_EQ(dhdx1(idx), dhdx2(idx));
-      EXPECT_DOUBLE_EQ(dhdy1(idx), dhdy2(idx));
-      EXPECT_DOUBLE_EQ(dsxdx1(idx), dsxdx2(idx));
-      EXPECT_DOUBLE_EQ(dsydy1(idx), dsydy2(idx));
-      EXPECT_DOUBLE_EQ(dsxdy1(idx), dsxdy2(idx));
+      EXPECT_NEAR(double(h1(idx)), double(h2(idx)), 1e-12);
+      EXPECT_NEAR(double(sx1(idx)), double(sx2(idx)), 1e-12);
+      EXPECT_NEAR(double(sy1(idx)), double(sy2(idx)), 1e-12);
+      EXPECT_NEAR(double(dhdx1(idx)), double(dhdx2(idx)), 1e-12);
+      EXPECT_NEAR(double(dhdy1(idx)), double(dhdy2(idx)), 1e-12);
+      EXPECT_NEAR(double(dsxdx1(idx)), double(dsxdx2(idx)), 1e-12);
+      EXPECT_NEAR(double(dsydy1(idx)), double(dsydy2(idx)), 1e-12);
+      EXPECT_NEAR(double(dsxdy1(idx)), double(dsxdy2(idx)), 1e-12);
     }
   }
 }

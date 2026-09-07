@@ -27,10 +27,10 @@ set_property(
 
 target_link_libraries(${rendering_target}
   PUBLIC
-    gz-common${GZ_COMMON_VER}::gz-common${GZ_COMMON_VER}
-    gz-rendering${GZ_RENDERING_VER}::gz-rendering${GZ_RENDERING_VER}
+    gz-common::gz-common
+    gz-rendering::gz-rendering
   PRIVATE
-    gz-plugin${GZ_PLUGIN_VER}::loader  
+    gz-plugin::loader  
 )
 
 #################################################
@@ -57,12 +57,12 @@ target_link_directories(${rendering_ogre2_target}
 target_link_libraries(${rendering_ogre2_target}
   PUBLIC
     ${rendering_target}
-    gz-common${GZ_COMMON_VER}::gz-common${GZ_COMMON_VER}
-    gz-rendering${GZ_RENDERING_VER}::gz-rendering${GZ_RENDERING_VER}
-    gz-rendering${GZ_RENDERING_VER}-ogre2
+    gz-common::gz-common
+    gz-rendering::gz-rendering
+    gz-rendering::ogre2
     GzOGRE2::GzOGRE2
   PRIVATE
-    gz-plugin${GZ_PLUGIN_VER}::register
+    gz-plugin::register
 )
 
 # Suppress an Ogre warning about adding _DEBUG to precompiler definitions.
@@ -78,8 +78,8 @@ gz_add_system(waves-visual
     WavesVisual.cc
   PUBLIC_LINK_LIBS
     ${rendering_target}
-    gz-common${GZ_COMMON_VER}::gz-common${GZ_COMMON_VER}
-    gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER}
+    gz-common::gz-common
+    gz-sim::gz-sim
 )
 
 #################################################
@@ -87,6 +87,6 @@ gz_add_system(waves-model
   SOURCES
     WavesModel.cc
   PUBLIC_LINK_LIBS
-    gz-common${GZ_COMMON_VER}::gz-common${GZ_COMMON_VER}
-    gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER}
+    gz-common::gz-common
+    gz-sim::gz-sim
 )

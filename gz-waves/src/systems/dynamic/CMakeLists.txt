@@ -8,10 +8,10 @@ gz_add_system(dynamic-geometry
   SOURCES
     DynamicGeometry.cc
   PUBLIC_LINK_LIBS
-    gz-common${GZ_COMMON_VER}::gz-common${GZ_COMMON_VER}
-    gz-rendering${GZ_RENDERING_VER}::gz-rendering${GZ_RENDERING_VER}
-    gz-rendering${GZ_RENDERING_VER}-ogre2
-    gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER}
+    gz-common::gz-common
+    gz-rendering::gz-rendering
+    gz-rendering::ogre2
+    gz-sim::gz-sim
     GzOGRE2::GzOGRE2
   PRIVATE_COMPILE_DEFS
     OGRE_IGNORE_UNKNOWN_DEBUG

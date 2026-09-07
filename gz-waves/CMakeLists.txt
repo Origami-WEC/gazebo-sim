@@ -6,17 +6,10 @@ cmake_minimum_required(VERSION 3.10.2)
 project(gz-waves1 VERSION 1.0.0)
 
 #============================================================================
-# Find gz-cmake
+# Find gz-cmake (unversioned — auto-detects latest installed)
 #============================================================================
-if("$ENV{GZ_VERSION}" STREQUAL "garden"
-    OR "$ENV{GZ_VERSION}" STREQUAL "harmonic"
-    OR NOT DEFINED "ENV{GZ_VERSION}")
-  find_package(gz-cmake3 REQUIRED)
-  set(GZ_CMAKE_VER ${gz-cmake3_VERSION_MAJOR})
-elseif("$ENV{GZ_VERSION}" STREQUAL "ionic")
-  find_package(gz-cmake4 REQUIRED)
-  set(GZ_CMAKE_VER ${gz-cmake4_VERSION_MAJOR})
-endif()
+find_package(gz-cmake REQUIRED)
+set(GZ_CMAKE_VER ${gz-cmake_VERSION_MAJOR})
 
 #============================================================================
 # Configure the project
@@ -46,153 +39,58 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # Find gnuplot-iostream - the header is used by the examples in test/plots
 include(Add_gnuplot-iostream)
 
-# Garden (default)
-if("$ENV{GZ_VERSION}" STREQUAL "garden")
+# Use unversioned find_package for all Gazebo dependencies.
+# Homebrew provides symlinks (e.g. gz-sim -> gz-sim10), so the latest
+# installed version is auto-detected.
+message(STATUS "Detecting installed Gazebo packages...")
 
-  #--------------------------------------
-  # Find gz-math
-  gz_find_package(gz-math7 REQUIRED COMPONENTS eigen3)
-  set(GZ_MATH_VER ${gz-math7_VERSION_MAJOR})
+#--------------------------------------
+# Find gz-math
+find_package(gz-math REQUIRED COMPONENTS eigen3)
+set(GZ_MATH_VER ${gz-math_VERSION_MAJOR})
+message(STATUS "  gz-math ${gz-math_VERSION}")
 
-  #--------------------------------------
-  # Find gz-plugin
-  gz_find_package(gz-plugin2 REQUIRED COMPONENTS loader register)
-  set(GZ_PLUGIN_VER ${gz-plugin2_VERSION_MAJOR})
+#--------------------------------------
+# Find gz-plugin
+find_package(gz-plugin REQUIRED COMPONENTS loader register)
+set(GZ_PLUGIN_VER ${gz-plugin_VERSION_MAJOR})
+message(STATUS "  gz-plugin ${gz-plugin_VERSION}")
 
-  #--------------------------------------
-  # Find gz-common
-  gz_find_package(gz-common5
-    REQUIRED COMPONENTS graphics events
-  )
-  set(GZ_COMMON_VER ${gz-common5_VERSION_MAJOR})
+#--------------------------------------
+# Find gz-common
+find_package(gz-common REQUIRED COMPONENTS graphics events profiler)
+set(GZ_COMMON_VER ${gz-common_VERSION_MAJOR})
+message(STATUS "  gz-common ${gz-common_VERSION}")
 
-  #--------------------------------------
-  # Find gz-msgs
-  gz_find_package(gz-msgs9 REQUIRED)
-  set(GZ_MSGS_VER ${gz-msgs9_VERSION_MAJOR})
+#--------------------------------------
+# Find gz-msgs
+find_package(gz-msgs REQUIRED)
+set(GZ_MSGS_VER ${gz-msgs_VERSION_MAJOR})
+message(STATUS "  gz-msgs ${gz-msgs_VERSION}")
 
-  #--------------------------------------
-  # Find gz-transport
-  gz_find_package(gz-transport12 REQUIRED)
-  set(GZ_TRANSPORT_VER ${gz-transport12_VERSION_MAJOR})
+#--------------------------------------
+# Find gz-transport
+find_package(gz-transport REQUIRED)
+set(GZ_TRANSPORT_VER ${gz-transport_VERSION_MAJOR})
+message(STATUS "  gz-transport ${gz-transport_VERSION}")
 
-  #--------------------------------------
-  # Find gz-rendering
-  gz_find_package(gz-rendering7 REQUIRED)
-  set(GZ_RENDERING_VER ${gz-rendering7_VERSION_MAJOR})
+#--------------------------------------
+# Find gz-rendering
+find_package(gz-rendering REQUIRED COMPONENTS ogre2)
+set(GZ_RENDERING_VER ${gz-rendering_VERSION_MAJOR})
+message(STATUS "  gz-rendering ${gz-rendering_VERSION}")
 
-  #--------------------------------------
-  # Find gz-sim
-  gz_find_package(gz-sim7 REQUIRED)
-  set(GZ_SIM_VER ${gz-sim7_VERSION_MAJOR})
+#--------------------------------------
+# Find gz-sim
+find_package(gz-sim REQUIRED)
+set(GZ_SIM_VER ${gz-sim_VERSION_MAJOR})
+message(STATUS "  gz-sim ${gz-sim_VERSION}")
 
-  #--------------------------------------
-  # Find SDFormat
-  gz_find_package(sdformat13 REQUIRED)
-  set(SDF_VER ${sdformat13_VERSION_MAJOR})
-
-  message(STATUS "Compiling against Gazebo Garden")
-
-# Harmonic
-elseif("$ENV{GZ_VERSION}" STREQUAL "harmonic")
-
-  #--------------------------------------
-  # Find gz-math
-  gz_find_package(gz-math7 REQUIRED COMPONENTS eigen3)
-  set(GZ_MATH_VER ${gz-math7_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-plugin
-  gz_find_package(gz-plugin2 REQUIRED COMPONENTS loader register)
-  set(GZ_PLUGIN_VER ${gz-plugin2_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-common
-  gz_find_package(gz-common5
-    REQUIRED COMPONENTS graphics events
-  )
-  set(GZ_COMMON_VER ${gz-common5_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-msgs
-  gz_find_package(gz-msgs10 REQUIRED)
-  set(GZ_MSGS_VER ${gz-msgs10_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-transport
-  gz_find_package(gz-transport13 REQUIRED)
-  set(GZ_TRANSPORT_VER ${gz-transport13_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-rendering
-  gz_find_package(gz-rendering8 REQUIRED)
-  set(GZ_RENDERING_VER ${gz-rendering8_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-sim
-  gz_find_package(gz-sim8 REQUIRED)
-  set(GZ_SIM_VER ${gz-sim8_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find SDFormat
-  gz_find_package(sdformat14 REQUIRED)
-  set(SDF_VER ${sdformat14_VERSION_MAJOR})
-
-  message(STATUS "Compiling against Gazebo Harmonic")
-
-  # Ionic
-
-  elseif(NOT DEFINED "ENV{GZ_VERSION}")
-
-  message(STATUS "Compiling against Gazebo Jammy")
-
-    #--------------------------------------
-  # Find gz-math
-  gz_find_package(gz-math8 REQUIRED COMPONENTS eigen3)
-  set(GZ_MATH_VER ${gz-math8_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-plugin
-  gz_find_package(gz-plugin3 REQUIRED COMPONENTS loader register)
-  set(GZ_PLUGIN_VER ${gz-plugin3_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-common
-  gz_find_package(gz-common6
-    REQUIRED COMPONENTS graphics events
-  )
-
-  set(GZ_COMMON_VER ${gz-common6_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-msgs
-  gz_find_package(gz-msgs11 REQUIRED)
-  set(GZ_MSGS_VER ${gz-msgs11_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-transport
-  gz_find_package(gz-transport14 REQUIRED)
-  set(GZ_TRANSPORT_VER ${gz-transport14_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-rendering
-  gz_find_package(gz-rendering9 REQUIRED)
-  set(GZ_RENDERING_VER ${gz-rendering9_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find gz-sim
-  gz_find_package(gz-sim9 REQUIRED)
-  set(GZ_SIM_VER ${gz-sim9_VERSION_MAJOR})
-
-  #--------------------------------------
-  # Find SDFormat
-  gz_find_package(sdformat15 REQUIRED)
-  set(SDF_VER ${sdformat15_VERSION_MAJOR})
-
- 
-else()
-  message(FATAL_ERROR "Unsupported GZ_VERSION: $ENV{GZ_VERSION}")
-endif()
+#--------------------------------------
+# Find SDFormat
+find_package(sdformat REQUIRED)
+set(SDF_VER ${sdformat_VERSION_MAJOR})
+message(STATUS "  sdformat ${sdformat_VERSION}")
 
 #--------------------------------------
 # Find OGRE
@@ -235,7 +133,7 @@ endif()
 #--------------------------------------
 # Find eigen3
 
-find_package(Eigen3 REQUIRED)
+find_package(EIGEN3 REQUIRED)
 
 #--------------------------------------
 # CGAL and its components...
