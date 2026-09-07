@@ -544,9 +544,14 @@ Ogre::MeshPtr DynamicGeometryPrivate::CreateStaticMesh(bool partialMesh)
   Ogre::RenderSystem *renderSystem = this->RenderSystem();
   Ogre::VaoManager *vaoManager = renderSystem->getVaoManager();
 
-  // Create the mesh
-  Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().createManual(
-              partialMesh ? "My PartialMesh" : "My StaticMesh",
+  // Create the mesh — remove first if name already exists (avoids
+  // Ogre::ItemIdentityException on scene restart)
+  auto &meshManager = Ogre::MeshManager::getSingleton();
+  std::string meshName = partialMesh ? "My PartialMesh" : "My StaticMesh";
+  if (meshManager.resourceExists(meshName))
+    meshManager.remove(meshName);
+  Ogre::MeshPtr mesh = meshManager.createManual(
+              meshName,
               Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
   // Create one submesh
@@ -620,8 +625,13 @@ DynamicGeometryPrivate::CreateDynamicMesh(size_t idx)
   Ogre::RenderSystem *renderSystem = this->RenderSystem();
   Ogre::VaoManager *vaoManager = renderSystem->getVaoManager();
 
-  Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().createManual(
-              "My DynamicMesh_" + Ogre::StringConverter::toString(idx),
+  auto &meshManager = Ogre::MeshManager::getSingleton();
+  std::string meshName = "My DynamicMesh_" +
+      Ogre::StringConverter::toString(idx);
+  if (meshManager.resourceExists(meshName))
+    meshManager.remove(meshName);
+  Ogre::MeshPtr mesh = meshManager.createManual(
+              meshName,
               Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
   Ogre::SubMesh *subMesh = mesh->createSubMesh();

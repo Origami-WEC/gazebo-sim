@@ -507,14 +507,44 @@ WavesVisualPrivate::SetMeshDeformationMethod(const std::string &_str)
 //////////////////////////////////////////////////
 WavesVisualPrivate::~WavesVisualPrivate()
 {
-  // Remove visuals
-  for (auto& vis : this->oceanVisuals2)
+  // Detach and remove visuals before scene destruction
+  // to avoid Ogre HLMS datablock tracking errors
+  try
   {
-    if (vis != nullptr)
+    for (auto& vis : this->oceanVisuals)
     {
-      vis->Destroy();
-      vis.reset();
+      if (vis != nullptr)
+      {
+        auto parent = vis->Parent();
+        if (parent)
+          parent->RemoveChild(vis);
+        vis->Destroy();
+        vis.reset();
+      }
     }
+  }
+  catch (...)
+  {
+    gzmsg << "WavesVisual: caught Ogre exception during cleanup (shutdown)\n";
+  }
+
+  try
+  {
+    for (auto& vis : this->oceanVisuals2)
+    {
+      if (vis != nullptr)
+      {
+        auto parent = vis->Parent();
+        if (parent)
+          parent->RemoveChild(vis);
+        vis->Destroy();
+        vis.reset();
+      }
+    }
+  }
+  catch (...)
+  {
+    gzmsg << "WavesVisual: caught Ogre exception during cleanup (shutdown)\n";
   }
 };
 
