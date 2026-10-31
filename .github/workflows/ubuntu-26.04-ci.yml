@@ -1,0 +1,54 @@
+name: Ubuntu 26.04 CI
+
+on: [push, pull_request]
+
+jobs:
+  ubuntu-26.04-ci:
+    runs-on: ubuntu-latest
+    name: Ubuntu 26.04 CI (gz-jetty)
+    container:
+      image: ubuntu:26.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install toolchain and Gazebo Jetty repositories
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            ca-certificates curl gnupg git lsb-release \
+            cmake ninja-build build-essential pkg-config
+          curl -fsSL https://packages.osrfoundation.org/gazebo.gpg \
+            -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+          . /etc/os-release
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable ${VERSION_CODENAME} main" \
+            > /etc/apt/sources.list.d/gazebo-stable.list
+
+      - name: Install gz-waves dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            libgz-sim10-dev libgz-physics9-dev libgz-rendering10-dev libgz-sensors10-dev \
+            libgz-transport15-dev libgz-msgs12-dev libgz-common7-dev libgz-math9-dev \
+            libgz-plugin4-dev libgz-utils4-dev libgz-cmake5-dev libsdformat16-dev \
+            libcgal-dev libfftw3-dev libeigen3-dev libboost-all-dev \
+            qt6-base-dev qt6-declarative-dev
+
+      - name: Configure (tests ON, plots off by default)
+        run: |
+          cmake -S gz-waves -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_TESTING=ON
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Check exported symbols
+        run: |
+          nm -D --defined-only build/lib/libgz-waves1.so | wc -l
+          test "$(nm -D --defined-only build/lib/libgz-waves1.so | wc -l)" -gt 5
+          nm -D -C --defined-only build/lib/libgz-waves1.so \
+            | grep -q 'gz::waves::Utilities::SdfParamBool'
