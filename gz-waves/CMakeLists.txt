@@ -31,13 +31,17 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # Set project-specific options
 #============================================================================
 
+# The gnuplot-iostream header is fetched only for the plotting examples under
+# test/plots. The plots are off by default: gnuplot-iostream's own
+# find_package(Boost COMPONENTS system) fails on Boost >= 1.90, which drops the
+# Boost.System CMake component, and the plots are not needed to build the plugin.
+# Enable them with -DGZ_WAVES_BUILD_PLOTS=ON on a toolchain that has the component.
+option(GZ_WAVES_BUILD_PLOTS
+  "Build the gnuplot plotting examples under test/plots" OFF)
+
 #============================================================================
 # Search for project-specific dependencies
 #============================================================================
-
-#--------------------------------------
-# Find gnuplot-iostream - the header is used by the examples in test/plots
-include(Add_gnuplot-iostream)
 
 # Use unversioned find_package for all Gazebo dependencies.
 # Homebrew provides symlinks (e.g. gz-sim -> gz-sim10), so the latest
@@ -193,7 +197,11 @@ set(FAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/fake/install")
 # Configure the build
 #============================================================================
 
-gz_configure_build(QUIT_IF_BUILD_ERRORS)
+# gz-cmake 5 (Jetty) hides symbols by default. gz-waves has no export macro, so
+# without this the shared library exports only a handful of symbols and the
+# Gazebo system plugins fail to load. Expose the symbols as upstream did before
+# gz-cmake 5 (maritime_ws#76).
+gz_configure_build(QUIT_IF_BUILD_ERRORS EXPOSE_SYMBOLS_BY_DEFAULT)
 
 # add_subdirectory(examples)
 
