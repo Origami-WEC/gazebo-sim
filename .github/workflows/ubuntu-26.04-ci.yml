@@ -3,7 +3,7 @@ name: Ubuntu 26.04 CI
 on: [push, pull_request]
 
 jobs:
-  ubuntu-26.04-ci:
+  ubuntu-2604-ci:
     runs-on: ubuntu-latest
     name: Ubuntu 26.04 CI (gz-jetty)
     container:
